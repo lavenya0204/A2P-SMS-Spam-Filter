@@ -5,13 +5,21 @@ https://www.loom.com/share/043efb844bc746bda2e3a8cfea2cda79?sid=8f53b520-b6d3-4c
 This project provides a containerized API for filtering Application-to-Person (A2P) SMS messages. 
 It uses a machine learning model - Multinomial Naive Bayes,  to accurately filters A2P SMS, while whitelisting ensures that trusted messages are always delivered. 
 The entire application is packaged within a single Docker container, for ease of deployment and use.
+
 -> app.py serves as the main entry point of the project.
+
 -> The data/ directory stores raw and processed datasets.
+
 -> dataCleanup.py includes preprocessing utilities such as cleaning, transforming, and preparing data for model training or inference.
+
 -> The model/ directory contains machine learning model.
+
 -> whitelisting.py manages whitelisting logic.
+
 -> Application logs are stored in app.log for performance monitoring.
+
 -> All dependencies are listed in requirements.txt.
+
 -> A virtual environment (venv/) is recommended for local development.
 
 ## Instructions to train and run the model:-
@@ -41,17 +49,24 @@ http://localhost:8000/docs
 
 ## How To Add whitelist entries?
 -> Go to config.json file 
+
 -> Add the whitelist domain or phases you wish to add, to trusted_domains or trusted_phrases list
 
 ## Example API Usage:-
 #Using Postman:
+
 -> Select POST method and enter this url - http://127.0.0.1:8000/check_sms
+
 -> In Body section , select raw and JSON
+
 -> Give Input as follows with any message you want:
+
 {
     "message": "Your OTP is 294647. Do not share it with anyone."
 }
+
 -> Click send and you will recieve the output . For the above input , the Output is:
+
 {
     "verdict": "allowed",
     "reason": "whitelisted"
