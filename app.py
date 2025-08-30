@@ -3,9 +3,9 @@ from pydantic import BaseModel
 import joblib
 import re
 import string
+import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-import nltk
 from whitelisting import check_whitelist # Updated import path
 import logging
 
@@ -13,11 +13,11 @@ import logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='app.log', # Saves logs to 'app.log' file
-    filemode='a'        # Appends new logs to the file
+    filename='app.log', 
+    filemode='a'       
 )
 
-# --- Load Model and Vectorizer ---
+# Load Model and Vectorizer
 
 try:
 
@@ -39,17 +39,15 @@ except LookupError:
     logging.info("Downloaded necessary NLTK data.")
 
 
-# --- Pydantic Model for API Input ---
+# Pydantic Model 
 class SMSMessage(BaseModel):
     message: str
 
-# --- API Instance ---
+#API Instance
 app = FastAPI()
 
-# --- Utility Function for Text Cleaning ---
-# This function remains the same as it's not path-dependent.
+# Text Cleaning
 def clean_message_for_inference(message: str) -> str:
-    """Cleans a raw message for the AI model."""
     text = message.lower()
     text = re.sub(r'https?://\S+|www\.\S+', '', text)
     text = re.sub(r'[^a-zA-Z\s]', '', text)
@@ -64,7 +62,7 @@ def clean_message_for_inference(message: str) -> str:
     
     return " ".join(lemmatized_words)
 
-# --- The Main API Endpoint ---
+# --- API Endpoint ---
 @app.post("/check_sms")
 def check_sms_endpoint(sms: SMSMessage):
     raw_message = sms.message

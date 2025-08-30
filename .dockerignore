@@ -1,4 +1,4 @@
-# Python cache
+<!-- # Python cache
 __pycache__/
 *.pyc
 *.pyo
@@ -26,4 +26,6 @@ app.log
 Thumbs.db
 
 # Local docs not needed in container
-README.md
+README.md -->
+.git
+data/

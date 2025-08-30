@@ -1,6 +1,6 @@
 import pandas as pd
 #read the dataset
-df = pd.read_csv("data/message_dataset_50k (1).csv")
+df = pd.read_csv("data/message_dataset_50k.csv")
 df.head(10)
 
 #print the no. of rows,columns
@@ -154,4 +154,3 @@ joblib.dump(vectorizer, vectorizer_filename)
 
 print(f"Model saved to: {os.path.abspath(model_filename)}")
 print(f"Vectorizer saved to: {os.path.abspath(vectorizer_filename)}")
-
