@@ -1,0 +1,17 @@
+{
+    "trusted_domains": [
+        "trip.com",
+        "icicibank.com",
+        "airtel.in",
+        "myntra.com"
+    ],
+    "trusted_phrases": [
+        "your otp is",
+        "your transaction id is",
+        "your booking is confirmed"
+    ],
+    "model_thresholds": {
+        "spam": 0.8,
+        "promotional": 0.7
+    }
+}

@@ -6,16 +6,21 @@ import string
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import nltk
-from src.whitelist_service import check_whitelist # Updated import path
+from whitelisting import check_whitelist # Updated import path
 import logging
 
-# Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# Set up logging and saving logging info
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filename='app.log', # Saves logs to 'app.log' file
+    filemode='a'        # Appends new logs to the file
+)
 
 # --- Load Model and Vectorizer ---
-# These are loaded once when the application starts
+
 try:
-    # Updated file paths to include the 'model' directory
+
     classifier = joblib.load('model/sms_classifier_model.joblib')
     vectorizer = joblib.load('model/tfidf_vectorizer.joblib')
     logging.info("Model and Vectorizer loaded successfully.")
@@ -28,10 +33,11 @@ except FileNotFoundError as e:
 try:
     nltk.data.find('corpora/stopwords')
     nltk.data.find('corpora/wordnet')
-except nltk.downloader.DownloadError:
+except LookupError:  
     nltk.download('stopwords')
     nltk.download('wordnet')
     logging.info("Downloaded necessary NLTK data.")
+
 
 # --- Pydantic Model for API Input ---
 class SMSMessage(BaseModel):

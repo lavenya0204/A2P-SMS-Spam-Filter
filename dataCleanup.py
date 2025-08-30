@@ -1,6 +1,6 @@
 import pandas as pd
 #read the dataset
-df = pd.read_csv("../data/message_dataset_50k (1).csv")
+df = pd.read_csv("data/message_dataset_50k (1).csv")
 df.head(10)
 
 #print the no. of rows,columns
@@ -22,7 +22,20 @@ print(duplicates_with_counts)
 df = df.drop_duplicates(subset=["Message"])
 df.shape
 
+import re
+import string
 import nltk
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support
+import joblib
+
+
+
+
 nltk.download('stopwords')
 nltk.download('wordnet')
 
@@ -60,18 +73,8 @@ def clean_sms_message(message: str) -> str:
 df['Cleaned_message'] = df['Message'].apply(clean_sms_message)
 print(df.head(15))
 
-df.to_csv("../data/message_dataset_cleaned.csv", index=False)
+df.to_csv("data/message_dataset_cleaned.csv", index=False)
 
-import re
-import string
-import nltk
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
-from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support
-import joblib
 
 # Define features (X) and labels (y)
 X = df['Cleaned_message']
@@ -135,7 +138,7 @@ print("-" * 50)
 import os
 import joblib
 
-# Define folder and file paths
+# Define folder and file paths relative to the project root
 model_folder = 'model'
 model_filename = os.path.join(model_folder, 'sms_classifier_model.joblib')
 vectorizer_filename = os.path.join(model_folder, 'tfidf_vectorizer.joblib')
@@ -149,6 +152,6 @@ joblib.dump(classifier, model_filename)
 # Save the fitted vectorizer
 joblib.dump(vectorizer, vectorizer_filename)
 
-print(f"Model saved as '{model_filename}'")
-print(f"Vectorizer saved as '{vectorizer_filename}'")
+print(f"Model saved to: {os.path.abspath(model_filename)}")
+print(f"Vectorizer saved to: {os.path.abspath(vectorizer_filename)}")
 
